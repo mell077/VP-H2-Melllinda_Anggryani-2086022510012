@@ -1,121 +1,154 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import 'models/photocard.dart';
+import 'theme/app_theme.dart';
+import 'Widgets/bias_progress_header.dart';
+import 'Widgets/member_filter_bar.dart';
+import 'Widgets/photo_card_grid.dart';
+import 'Widgets/search_field.dart';
+import 'Widgets/status_filter_bar.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main() => runApp(const PhotocardVaultApp());
+class PhotocardVaultApp extends StatelessWidget {
+  const PhotocardVaultApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Photocard Vault',
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: ThemeMode.system,
+      home: const CollectionScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+/// Primary screen. Owns ALL state:
+/// cards, search query, member filter, status filter, and the chosen bias.
+class CollectionScreen extends StatefulWidget {
+  const CollectionScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<CollectionScreen> createState() => _CollectionScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _CollectionScreenState extends State<CollectionScreen> {
+  List<Photocard> _cards = const [
+    Photocard(
+      id: '1',
+      member: 'Member A',
+      album: 'Album One',
+      version: 'Ver. A',
+      binderPage: 1,
+      status: CardStatus.owned,
+    ),
+    Photocard(
+      id: '2',
+      member: 'Member B',
+      album: 'Album One',
+      version: 'Ver. A',
+      binderPage: 1,
+    ),
+    Photocard(
+      id: '3',
+      member: 'Member C',
+      album: 'Album One',
+      version: 'Ver. B',
+      binderPage: 2,
+    ),
+    Photocard(
+      id: '4',
+      member: 'Member A',
+      album: 'Album Two',
+      version: 'Ver. A',
+      binderPage: 2,
+    ),
+    Photocard(
+      id: '5',
+      member: 'Member B',
+      album: 'Album Two',
+      version: 'Ver. B',
+      binderPage: 3,
+      status: CardStatus.owned,
+    ),
+    Photocard(
+      id: '6',
+      member: 'Member A',
+      album: 'Album Two',
+      version: 'Ver. B',
+      binderPage: 3,
+    ),
+  ];
 
-  void _incrementCounter() {
+  String _query = '';
+  String? _member;
+  String? _bias;
+  StatusFilter _statusFilter = StatusFilter.all;
+
+  void _toggleStatus(String id) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _cards = [
+        for (final c in _cards)
+          if (c.id == id)
+            c.copyWith(
+              status: c.isOwned ? CardStatus.wishlist : CardStatus.owned,
+            )
+          else
+            c,
+      ];
     });
+  }
+
+  void _setQuery(String value) => setState(() => _query = value);
+  void _setMember(String? member) => setState(() => _member = member);
+  void _setBias(String? bias) => setState(() => _bias = bias);
+  void _setStatusFilter(StatusFilter f) => setState(() => _statusFilter = f);
+
+  bool _matches(Photocard c) {
+    final q = _query.toLowerCase();
+    final matchesQuery = c.album.toLowerCase().contains(q) ||
+        c.version.toLowerCase().contains(q);
+    final matchesMember = _member == null || c.member == _member;
+    final matchesStatus = switch (_statusFilter) {
+      StatusFilter.all => true,
+      StatusFilter.wishlist => !c.isOwned,
+      StatusFilter.owned => c.isOwned,
+    };
+    return matchesQuery && matchesMember && matchesStatus;
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    final members = {for (final c in _cards) c.member}.toList()..sort();
+    final visible = _cards.where(_matches).toList()
+      ..sort((a, b) => a.binderPage.compareTo(b.binderPage));
+
+    final biasCards = _cards.where((c) => c.member == _bias).toList();
+    final biasOwned = biasCards.where((c) => c.isOwned).length;
+
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      appBar: AppBar(title: const Text('Photocard Vault')),
+      body: Column(
+        children: [
+          BiasProgressHeader(
+            members: members,
+            bias: _bias,
+            owned: biasOwned,
+            total: biasCards.length,
+            onBiasChanged: _setBias,
+          ),
+          SearchField(onChanged: _setQuery),
+          StatusFilterBar(selected: _statusFilter, onChanged: _setStatusFilter),
+          MemberFilterBar(
+            members: members,
+            selected: _member,
+            onSelected: _setMember,
+          ),
+          Expanded(
+            child: PhotocardGrid(cards: visible, onToggle: _toggleStatus),
+          ),
+        ],
       ),
     );
   }
