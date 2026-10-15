@@ -18,10 +18,14 @@ class MemberFilterBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Wrap(
         spacing: 8,
+        runSpacing: 8,
         children: [
           for (final m in members)
             ChoiceChip(
-              label: Text(m),
+              label: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 180),
+                child: Text(m, maxLines: 1, overflow: TextOverflow.ellipsis),
+              ),
               selected: m == selected,
               onSelected: (isOn) => onSelected(isOn ? m : null),
             ),

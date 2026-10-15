@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// The single most important element on the Collection screen:
+/// "how close am I to completing my bias?"
+///
+/// Dominance comes from type scale (display-size count) and colour role
+/// (primaryContainer surface + primary progress bar). Nothing else on the
+/// screen was shrunk to make this stand out.
 class BiasProgressHeader extends StatelessWidget {
   const BiasProgressHeader({
     super.key,
@@ -37,6 +43,7 @@ class BiasProgressHeader extends StatelessWidget {
               DropdownButton<String>(
                 value: bias,
                 isDense: true,
+                isExpanded: true,
                 underline: const SizedBox.shrink(),
                 iconEnabledColor: scheme.onPrimaryContainer,
                 hint: Text(
@@ -50,7 +57,14 @@ class BiasProgressHeader extends StatelessWidget {
                 ),
                 items: [
                   for (final m in members)
-                    DropdownMenuItem(value: m, child: Text(m)),
+                    DropdownMenuItem(
+                      value: m,
+                      child: Text(
+                        m,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                 ],
                 onChanged: onBiasChanged,
               ),
