@@ -190,6 +190,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
                   // it does not just stretch.
                   if (constraints.maxWidth >= _wideBreakpoint) {
                     return Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         SizedBox(
                           width: _sidePaneWidth,
