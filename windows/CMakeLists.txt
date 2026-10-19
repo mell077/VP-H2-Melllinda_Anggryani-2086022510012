@@ -1,10 +1,18 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.14)
+<<<<<<< HEAD
 project(tugas_app LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
 set(BINARY_NAME "tugas_app")
+=======
+project(vispro_h2 LANGUAGES CXX)
+
+# The name of the executable created for the application. Change this to change
+# the on-disk name of your application.
+set(BINARY_NAME "vispro_h2")
+>>>>>>> 93bfda3288f1e95717bc161a3fdb6988f199527c
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.

@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "tugas_app",
     "short_name": "tugas_app",
+=======
+    "name": "vispro_h2",
+    "short_name": "vispro_h2",
+>>>>>>> 93bfda3288f1e95717bc161a3fdb6988f199527c
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

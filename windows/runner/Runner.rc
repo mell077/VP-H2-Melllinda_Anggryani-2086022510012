@@ -90,12 +90,21 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
+<<<<<<< HEAD
             VALUE "FileDescription", "tugas_app" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "tugas_app" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "tugas_app.exe" "\0"
             VALUE "ProductName", "tugas_app" "\0"
+=======
+            VALUE "FileDescription", "vispro_h2" "\0"
+            VALUE "FileVersion", VERSION_AS_STRING "\0"
+            VALUE "InternalName", "vispro_h2" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
+            VALUE "OriginalFilename", "vispro_h2.exe" "\0"
+            VALUE "ProductName", "vispro_h2" "\0"
+>>>>>>> 93bfda3288f1e95717bc161a3fdb6988f199527c
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -5,7 +5,11 @@ plugins {
 }
 
 android {
+<<<<<<< HEAD
     namespace = "com.example.tugas_app"
+=======
+    namespace = "com.example.vispro_h2"
+>>>>>>> 93bfda3288f1e95717bc161a3fdb6988f199527c
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -16,7 +20,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+<<<<<<< HEAD
         applicationId = "com.example.tugas_app"
+=======
+        applicationId = "com.example.vispro_h2"
+>>>>>>> 93bfda3288f1e95717bc161a3fdb6988f199527c
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
