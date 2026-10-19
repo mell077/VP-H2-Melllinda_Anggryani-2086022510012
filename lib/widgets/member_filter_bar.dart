@@ -14,20 +14,27 @@ class MemberFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Row(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: ChoiceChip(
+              label: const Text('Semua member'),
+              selected: selected == null,
+              onSelected: (_) => onSelected(null),
+            ),
+          ),
           for (final m in members)
-            ChoiceChip(
-              label: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 180),
-                child: Text(m, maxLines: 1, overflow: TextOverflow.ellipsis),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ChoiceChip(
+                label: Text(m),
+                selected: selected == m,
+                onSelected: (_) => onSelected(m),
               ),
-              selected: m == selected,
-              onSelected: (isOn) => onSelected(isOn ? m : null),
             ),
         ],
       ),

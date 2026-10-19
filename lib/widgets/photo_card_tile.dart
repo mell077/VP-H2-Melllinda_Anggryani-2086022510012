@@ -1,67 +1,64 @@
 import 'package:flutter/material.dart';
-
 import '../models/photocard.dart';
 
-class PhotocardTile extends StatelessWidget {
-  const PhotocardTile({
-    super.key,
-    required this.card,
-    required this.onToggle,
-  });
+class PhotoCardTile extends StatelessWidget {
+  const PhotoCardTile({super.key, required this.card});
 
-  final Photocard card;
-  final VoidCallback onToggle;
+  final PhotoCard card;
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final text = Theme.of(context).textTheme;
-
-    // Owned = tertiary container, Wishlist = default card surface.
-    final foreground =
-        card.isOwned ? scheme.onTertiaryContainer : scheme.onSurface;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final owned = card.status == CardStatus.owned;
 
     return Card(
       clipBehavior: Clip.antiAlias,
-      color: card.isOwned ? scheme.tertiaryContainer : null,
-      child: InkWell(
-        onTap: onToggle,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              color: scheme.primaryContainer,
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.photo_outlined,
+                size: 48,
+                color: scheme.onPrimaryContainer,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  card.isOwned ? Icons.check_circle : Icons.favorite_border,
-                  color: card.isOwned ? scheme.tertiary : scheme.primary,
-                ),
-                const SizedBox(height: 8),
+                Text(card.member, style: theme.textTheme.titleSmall),
                 Text(
-                  card.member,
+                  card.album,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: text.bodyLarge?.copyWith(color: foreground),
+                  style: theme.textTheme.bodySmall,
                 ),
-                Text(
-                  '${card.album} · ${card.version}',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: text.bodyMedium?.copyWith(color: foreground),
-                ),
-                Text(
-                  'Binder page ${card.binderPage}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: text.bodyMedium?.copyWith(color: foreground),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Icon(
+                      owned ? Icons.check_circle : Icons.favorite_border,
+                      size: 16,
+                      color: owned ? scheme.primary : scheme.outline,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      owned ? 'Dimiliki' : 'Wishlist',
+                      style: theme.textTheme.labelSmall,
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
