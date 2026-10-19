@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/photocard.dart';
+import 'data/sample_cards.dart';
 import 'widgets/add_card_sheet.dart';
 import 'widgets/bias_progress_header.dart';
 import 'widgets/empty_state.dart';
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     setState(() {
-      _cards.addAll(kSampleCards);
+      _cards.addAll(initialCards());
       _isLoading = false;
     });
   }

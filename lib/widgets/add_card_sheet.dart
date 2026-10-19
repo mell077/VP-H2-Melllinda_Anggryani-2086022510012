@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tugas_app/data/sample_cards.dart';
 import '../models/photocard.dart';
 
 Future<PhotoCard?> showAddCardSheet(BuildContext context) {
@@ -21,6 +22,8 @@ class _AddCardFormState extends State<_AddCardForm> {
   String _member = kMembers.first;
   CardStatus _status = CardStatus.owned;
 
+  int? get _binderPage => null;
+
   @override
   void dispose() {
     _albumController.dispose();
@@ -37,7 +40,7 @@ class _AddCardFormState extends State<_AddCardForm> {
         id: DateTime.now().microsecondsSinceEpoch.toString(),
         member: _member,
         album: album,
-        status: _status,
+        status: _status, version: '', binderPage: _binderPage ?? 1,
       ),
     );
   }
