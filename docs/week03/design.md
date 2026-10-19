@@ -1,0 +1,1 @@
+Aplikasi ini dipakai oleh penggemar K-pop yang mengoleksi photocard dan album. Warna ungu dipilih karena terasa lembut dan dekat dengan citra fandom, sehingga pengguna merasa nyaman saat menjelajahi koleksi mereka dalam waktu lama. Warna ini juga memiliki kontras yang cukup tinggi di mode terang dan gelap, sehingga teks dan kartu tetap mudah dibaca.
