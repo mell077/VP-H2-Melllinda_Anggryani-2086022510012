@@ -38,5 +38,5 @@ final _long = 'LongName' * 25;
 List<PhotoCard> _longTextCards() => [
       PhotoCard(id: '1', member: _long, album: 'Album One', version: 'Ver. A', binderPage: 1, status: CardStatus.owned),
       PhotoCard(id: '2', member: 'Member B', album: _long, version: _long, binderPage: 1, status: CardStatus.wishlist),
-      PhotoCard(id: '3', member: 'Member C', album: 'Album Two', version: 'Ver. B', binderPage: 2, status: CardStatus.wishlist),
+      const PhotoCard(id: '3', member: 'Member C', album: 'Album Two', version: 'Ver. B', binderPage: 2, status: CardStatus.wishlist),
     ];

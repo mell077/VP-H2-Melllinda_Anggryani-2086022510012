@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# tugas_app
-=======
-# vispro_h2
->>>>>>> 93bfda3288f1e95717bc161a3fdb6988f199527c
+# photocard_vault
 
 A new Flutter project.
 
