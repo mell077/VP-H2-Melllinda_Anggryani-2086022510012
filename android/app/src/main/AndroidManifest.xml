@@ -1,10 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-<<<<<<< HEAD
         android:label="tugas_app"
-=======
-        android:label="vispro_h2"
->>>>>>> 93bfda3288f1e95717bc161a3fdb6988f199527c
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
